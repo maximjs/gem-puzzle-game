@@ -5,4 +5,4 @@
 | 11 | 13 | 6  |    |
 
 A gem puzzle game.
-Use ↑, ↓, ←, → keys on keyboard or a mouse.
+Use ↑, ↓, ←, → keys on the keyboard or a mouse.

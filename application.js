@@ -32,10 +32,10 @@ const generatePlayingField = (startRowIndex, startColIndex) => {
   return tableEl;
 };
 
-const getNearEmptyCell = (nearestElements, parentTable) => {
+const getNearEmptyCell = (nearestElements, table) => {
   return nearestElements.reduce((acc, el) => {
-    if (parentTable.rows[el[0]] && parentTable.rows[el[0]].cells[el[1]] && parentTable.rows[el[0]].cells[el[1]].childNodes.length === 0) {
-      return parentTable.rows[el[0]].cells[el[1]];
+    if (table.rows[el[0]] && table.rows[el[0]].cells[el[1]] && table.rows[el[0]].cells[el[1]].childNodes.length === 0) {
+      return table.rows[el[0]].cells[el[1]];
     }
     return acc;
   }, null);
@@ -60,14 +60,13 @@ const game = () => {
   const divTable = document.querySelector('.gem-puzzle');
   const table = generatePlayingField(3, 3);
   divTable.appendChild(table);
-  const parentTable = document.querySelector('.table-bordered');
   let steps = 0;
   document.body.addEventListener('keydown', event => {
     const emptyCell = document.querySelector('.table-active');
     const [oldRow, oldCell] = [emptyCell.parentElement.rowIndex, emptyCell.cellIndex];
     const [newRow, newCell] = getCellToMove(oldRow, oldCell, event);
-    if (newRow < 4 && newCell < 4) {
-      const cellToMove = parentTable.rows[newRow].cells[newCell];
+    if (newRow < 4 && newRow >=0 && newCell < 4 && newCell >= 0) {
+      const cellToMove = table.rows[newRow].cells[newCell];
       emptyCell.classList.remove('table-active');
       emptyCell.innerHTML = cellToMove.innerHTML;
       cellToMove.innerHTML = '';
@@ -81,7 +80,7 @@ const game = () => {
     const clickedEl = event.target;
     const [row, cell] = [clickedEl.parentElement.rowIndex, clickedEl.cellIndex];
     const nearestElements = [[row + 1, cell], [row - 1, cell], [row, cell + 1], [row, cell - 1]];
-    const emptyCell = getNearEmptyCell(nearestElements, parentTable);
+    const emptyCell = getNearEmptyCell(nearestElements, table);
     if (emptyCell) {
       emptyCell.classList.remove('table-active');
       emptyCell.innerHTML = clickedEl.innerHTML;
